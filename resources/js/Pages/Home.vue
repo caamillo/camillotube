@@ -40,30 +40,48 @@
             </div>
         </div>
     </Disclosure>
-    <div class="flex flex-wrap justify-center space-x-4">
-        <Video v-for="video in videos" :key="video.id" :videoDetails="video" />
+    <div class="flex justify-center">
+        <div class="flex flex-wrap w-[85%] start space-x-4">
+            <Video v-for="video in videos" :key="video.id" :videoDetails="video" />
+        </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            videos: []
+        }
+    },
+    methods: {
+        getRndImg: async () => fetch('https://picsum.photos/350/200'),
+        getRndUsrs: async (num) => fetch('https://random-data-api.com/api/v2/users?size=' + num)
+    },
+    async mounted() {
+        const numvideos = 5
+        const users = await (await this.getRndUsrs(numvideos)).json()
+        for (let i = 0; i < numvideos; i++) {
+            this.videos.push({
+                id: `video-${i}`,
+                title: `Titolo Video No.${i}`,
+                user: {
+                    uid: users[i].uid,
+                    name: users[i].username,
+                    pfp: users[i].avatar
+                },
+                uploaded: new Date(),
+                views: Math.floor(Math.random() * 1000),
+                duration: Math.floor(Math.random() * 1000),
+                preview: URL.createObjectURL(await (await this.getRndImg()).blob())
+            })
+        }
+    }
+}
+</script>
 
 <script setup>
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { MagnifyingGlassIcon, BellIcon } from '@heroicons/vue/24/outline'
 import Video from '../Components/Video.vue'
-
-const videos = []
-
-for (let i = 0; i < 5; i++)
-    videos.push({
-        id: `video-${ i }`,
-        title: `Titolo Video No.${ i }`,
-        user: {
-            uid: 0,
-            name: 'caamillo',
-            pfp: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-        },
-        uploaded: new Date(),
-        views: Math.floor(Math.random() * 1000),
-        duration: Math.floor(Math.random() * 1000),
-        preview: 'https://www.powned.it/wp-content/uploads/2021/01/Rammus_0.jpg'
-    })
 </script>

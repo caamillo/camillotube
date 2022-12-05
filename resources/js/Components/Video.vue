@@ -1,6 +1,6 @@
 <template>
     <div class="rounded-lg cursor-pointer p-3 hover:bg-black flex flex-col">
-        <img :src="details.preview" class="rounded-md max-w-[280px] object-cover">
+        <img :src="details.preview" class="rounded-md h-[200px] w-[350px] object-cover">
         <div class="flex items-center space-x-3">
             <img :src="details.user.pfp" class="rounded-full w-[30px] h-[30px] object-cover">
             <div class="desc p-2">
@@ -36,7 +36,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

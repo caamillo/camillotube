@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Test</title>
+        <title>CamilloTube</title>
 
         @vite('resources/css/app.css')
 
@@ -17,7 +17,7 @@
             }
         </style>
     </head>
-    <body>
+    <body class="select-none">
         <div id="app"></div>
         @vite('resources/js/app.js')
     </body>
