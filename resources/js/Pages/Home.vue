@@ -1,5 +1,69 @@
 <template>
-    <div class="">
-        Ciao
+    <Disclosure as="nav" v-slot="{ open }">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 space-x-3 items-center justify-center sm:items-stretch sm:justify-start">
+                    <input class="w-[50%] bg-black h-[2.5rem] p-2 focus:outline-none border-2 border-gray-500/50 rounded-md"/>
+                    <button class="bg-gray-500/50 px-5 rounded-md text-black">
+                        <MagnifyingGlassIcon class="w-5 cursor-pointer"/>
+                    </button>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <button type="button" class="rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                        <span class="sr-only">View notifications</span>
+                        <BellIcon class="h-6 w-6" aria-hidden="true" />
+                    </button>
+
+                    <!-- Profile dropdown -->
+                    <Menu as="div" class="relative ml-3">
+                        <div>
+                            <MenuButton class="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#121212]">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                            </MenuButton>
+                        </div>
+                        <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                            <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ">
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</a>
+                                </MenuItem>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
+                </div>
+            </div>
+        </div>
+    </Disclosure>
+    <div class="flex flex-wrap justify-center space-x-4">
+        <Video v-for="video in videos" :key="video.id" :videoDetails="video" />
     </div>
 </template>
+
+<script setup>
+import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { MagnifyingGlassIcon, BellIcon } from '@heroicons/vue/24/outline'
+import Video from '../Components/Video.vue'
+
+const videos = []
+
+for (let i = 0; i < 5; i++)
+    videos.push({
+        id: `video-${ i }`,
+        title: `Titolo Video No.${ i }`,
+        user: {
+            uid: 0,
+            name: 'caamillo',
+            pfp: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+        },
+        uploaded: new Date(),
+        views: Math.floor(Math.random() * 1000),
+        duration: Math.floor(Math.random() * 1000),
+        preview: 'https://www.powned.it/wp-content/uploads/2021/01/Rammus_0.jpg'
+    })
+</script>
