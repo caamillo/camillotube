@@ -1,15 +1,19 @@
 <template>
     <DialogVideo :addVideo="addVideo" :show="isDialogVideoOpen" :close-dialog-video="closeDialogVideo" @close="closeDialogVideo" />
     <Disclosure as="nav" v-slot="{ open }">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-2 px-8">
             <div class="relative flex h-16 items-center justify-between">
-                <div class="flex flex-1 space-x-3 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="font-bold text-xl space-x-1">
+                    <span>Camillo</span>
+                    <span class="bg-gray-500/50 rounded-md p-1 px-2 text-[#121212]">Tube</span>
+                </div>
+                <div class="flex flex-1 space-x-3 items-center justify-center items-stretch justify-start">
                     <input class="w-[50%] bg-black h-[2.5rem] p-2 focus:outline-none border-2 border-gray-500/50 rounded-md" placeholder="Search..."/>
                     <button class="bg-gray-500/50 px-5 rounded-md text-black">
                         <MagnifyingGlassIcon class="w-5 cursor-pointer"/>
                     </button>
                 </div>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 ">
                     <button type="button" @click="openDialogVideo()" class="text-gray-400 hover:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
