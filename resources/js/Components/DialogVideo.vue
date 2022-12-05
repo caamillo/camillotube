@@ -1,6 +1,6 @@
 <template>
-    <TransitionRoot as="template">
-        <Dialog as="div" class="relative z-10">
+    <TransitionRoot appear :show="isOpen" as="template">
+        <Dialog as="div" @close="closeModal" class="relative z-10">
             <TransitionChild
                 as="template"
                 enter="duration-300 ease-out"
@@ -59,18 +59,6 @@
     </TransitionRoot>
 </template>
 
-<script>
-export default {
-    props: {
-        closeDialogVideo: Function
-    },
-    data() {
-        return {
-            closeDialog: this.closeDialogVideo
-        }
-    }
-}
-</script>
 
 <script setup>
 import {
