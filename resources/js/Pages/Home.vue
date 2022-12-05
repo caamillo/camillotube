@@ -1,10 +1,10 @@
 <template>
-    <DialogVideo :show="isDialogVideoOpen" :close-dialog-video="closeDialogVideo" @close="closeDialogVideo" />
+    <DialogVideo :addVideo="addVideo" :show="isDialogVideoOpen" :close-dialog-video="closeDialogVideo" @close="closeDialogVideo" />
     <Disclosure as="nav" v-slot="{ open }">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
                 <div class="flex flex-1 space-x-3 items-center justify-center sm:items-stretch sm:justify-start">
-                    <input class="w-[50%] bg-black h-[2.5rem] p-2 focus:outline-none border-2 border-gray-500/50 rounded-md"/>
+                    <input class="w-[50%] bg-black h-[2.5rem] p-2 focus:outline-none border-2 border-gray-500/50 rounded-md" placeholder="Search..."/>
                     <button class="bg-gray-500/50 px-5 rounded-md text-black">
                         <MagnifyingGlassIcon class="w-5 cursor-pointer"/>
                     </button>
@@ -19,9 +19,9 @@
                     <!-- Profile dropdown -->
                     <Menu as="div" class="relative ml-3">
                         <div>
-                            <MenuButton class="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#121212]">
+                            <MenuButton class="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-[#121212]">
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                                <object class="h-8 w-8 rounded-full object-cover hover:bg-black" :data="user.pfp" type="image/png"></object>
                             </MenuButton>
                         </div>
                         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -43,7 +43,7 @@
         </div>
     </Disclosure>
     <div class="flex justify-center">
-        <div class="flex flex-wrap w-[85%] md:justify-start justify-center">
+        <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1">
             <Video v-for="video in videos" :key="video.id" :videoDetails="video" />
         </div>
     </div>
@@ -53,20 +53,37 @@
 export default {
     data() {
         return {
-            videos: []
+            videos: [],
+            user: {
+                uid: 12412125,
+                name: 'caamillo',
+                pfp: ''
+            }
         }
     },
     methods: {
         getRndImg: async () => fetch('https://picsum.photos/350/200'),
         getRndUsrs: async (num) => fetch('https://random-data-api.com/api/v2/users?size=' + num),
+        async addVideo(title) {
+            this.videos.push({
+                user: this.user,
+                id: Math.floor(Math.random() * (9999999 - 1000000) + 1000000),
+                uploaded: new Date(),
+                views: Math.floor(Math.random() * 1000),
+                duration: Math.floor(Math.random() * 1000),
+                preview: URL.createObjectURL(await (await this.getRndImg()).blob()),
+                title: title
+            })
+        }
     },
     async mounted() {
         const numvideos = 5
-        const users = await (await this.getRndUsrs(numvideos)).json()
+        const users = await (await this.getRndUsrs(numvideos + 1)).json()
+        this.user.pfp = users[numvideos].avatar
         for (let i = 0; i < numvideos; i++) {
             this.videos.push({
-                id: `video-${i}`,
-                title: `Titolo Video No.${i}`,
+                id: Math.floor(Math.random() * (9999999 - 1000000) + 1000000),
+                title: `Titolo Video No.${ i }`,
                 user: {
                     uid: users[i].uid,
                     name: users[i].username,

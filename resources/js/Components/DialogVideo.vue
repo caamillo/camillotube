@@ -1,6 +1,6 @@
 <template>
-    <TransitionRoot appear :show="isOpen" as="template">
-        <Dialog as="div" @close="closeModal" class="relative z-10">
+    <TransitionRoot as="template">
+        <Dialog as="div" class="relative z-10">
             <TransitionChild
                 as="template"
                 enter="duration-300 ease-out"
@@ -33,22 +33,37 @@
                                 as="h3"
                                 class="text-lg font-medium leading-6 text-gray-900"
                             >
-                                Payment successful
+                                Adding Video
                             </DialogTitle>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
-                                    Your payment has been successfully submitted. We’ve sent you
-                                    an email with all of the details of your order.
+                                    Add a video to CamilloTube
                                 </p>
                             </div>
-
-                            <div class="mt-4">
+                            <form class="py-2" action="#" method="POST">
+                                <input type="hidden" name="remember" value="true" />
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="text-black text-sm" for="video-title">Video title</label>
+                                        <input id="video-title" name="title" type="text" required="true" class="relative block w-full appearance-none rounded-none rounded-[0.5rem] border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Insert title" />
+                                    </div>
+                                    <input type="file" name="video-upload" id="video-upload" accept="video/*">
+                                </div>
+                            </form>
+                            <div class="mt-4 space-x-2">
                                 <button
                                     type="button"
                                     class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    @click="submitVideo"
+                                >
+                                    Submit
+                                </button>
+                                <button
+                                    type="button"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                                     @click="closeDialog"
                                 >
-                                    Got it, thanks!
+                                    Cancel
                                 </button>
                             </div>
                         </DialogPanel>
@@ -59,6 +74,27 @@
     </TransitionRoot>
 </template>
 
+<script>
+export default {
+    props: {
+        closeDialogVideo: Function,
+        addVideo: Function
+    },
+    data() {
+        return {
+            closeDialog: this.closeDialogVideo,
+            addvideo: this.addVideo
+        }
+    },
+    methods: {
+        submitVideo() {
+            const title = document.getElementById('video-title').value.trim()
+            this.addvideo(title)
+            this.closeDialog()
+        }
+    }
+}
+</script>
 
 <script setup>
 import {
