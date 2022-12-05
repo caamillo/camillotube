@@ -1,4 +1,5 @@
 <template>
+    <DialogVideo :show="isDialogVideoOpen" :close-dialog-video="closeDialogVideo" @close="closeDialogVideo" />
     <Disclosure as="nav" v-slot="{ open }">
         <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
@@ -9,9 +10,10 @@
                     </button>
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button type="button" class="rounded-full p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-                        <span class="sr-only">View notifications</span>
-                        <BellIcon class="h-6 w-6" aria-hidden="true" />
+                    <button type="button" @click="openDialogVideo()" class="text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
                     </button>
 
                     <!-- Profile dropdown -->
@@ -25,7 +27,7 @@
                         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                             <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ">
                                 <MenuItem v-slot="{ active }">
-                                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
+                                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Profile</a>
                                 </MenuItem>
                                 <MenuItem v-slot="{ active }">
                                     <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
@@ -41,7 +43,7 @@
         </div>
     </Disclosure>
     <div class="flex justify-center">
-        <div class="flex flex-wrap w-[85%] start space-x-4">
+        <div class="flex flex-wrap w-[85%] md:justify-start justify-center">
             <Video v-for="video in videos" :key="video.id" :videoDetails="video" />
         </div>
     </div>
@@ -56,7 +58,7 @@ export default {
     },
     methods: {
         getRndImg: async () => fetch('https://picsum.photos/350/200'),
-        getRndUsrs: async (num) => fetch('https://random-data-api.com/api/v2/users?size=' + num)
+        getRndUsrs: async (num) => fetch('https://random-data-api.com/api/v2/users?size=' + num),
     },
     async mounted() {
         const numvideos = 5
@@ -83,5 +85,17 @@ export default {
 <script setup>
 import { Disclosure, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { MagnifyingGlassIcon, BellIcon } from '@heroicons/vue/24/outline'
+import { ref } from 'vue'
 import Video from '../Components/Video.vue'
+import DialogVideo from '../Components/DialogVideo.vue'
+
+const isDialogVideoOpen = ref(false)
+
+const openDialogVideo = () => {
+    isDialogVideoOpen.value = true
+}
+
+const closeDialogVideo = () => {
+    isDialogVideoOpen.value = false
+}
 </script>

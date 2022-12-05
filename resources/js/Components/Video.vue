@@ -1,6 +1,6 @@
 <template>
-    <div class="rounded-lg cursor-pointer p-3 hover:bg-black flex flex-col">
-        <img :src="details.preview" class="rounded-md h-[200px] w-[350px] object-cover">
+    <div class="rounded-lg cursor-pointer w-[380px] m-2 p-3 hover:bg-black flex flex-col">
+        <img :src="details.preview" class="rounded-md h-[200px] w-full object-cover">
         <div class="flex items-center space-x-3">
             <img :src="details.user.pfp" class="rounded-full w-[30px] h-[30px] object-cover">
             <div class="desc p-2">
