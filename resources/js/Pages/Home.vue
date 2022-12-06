@@ -171,6 +171,9 @@ const closeDialogVideo = () => {
 </script>
 
 <style>
+    img {
+        pointer-events: none;
+    }
     .skeletonAnim {
         background-color: #1d1d1d;
         animation: skeletonAnim 1.5s alternate infinite ease-in-out;
