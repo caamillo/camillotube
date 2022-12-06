@@ -89,7 +89,7 @@ export default {
     methods: {
         submitVideo() {
             const title = document.getElementById('video-title').value.trim()
-            this.addvideo(title)
+            if (title.length > 0) this.addvideo(title)
             this.closeDialog()
         }
     }
