@@ -18,7 +18,9 @@
         </style>
     </head>
     <body class="select-none">
-        <div id="app"></div>
+        <div id="app">
+            <router-view></router-view>
+        </div>
         @vite('resources/js/app.js')
     </body>
 </html>
